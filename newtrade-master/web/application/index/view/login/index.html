@@ -1,0 +1,77 @@
+{include file="common/header"}
+<div class="layui-container fly-marginTop">
+    <div class="fly-panel fly-panel-user" pad20>
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <ul class="layui-tab-title">
+                <li class="layui-this">登入</li>
+                <li><a href="/index/login/reg">注册</a></li>
+            </ul>
+            <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form layui-form-pane">
+                        <form class="layui-form" action="">
+                            {:token()}
+                            <div class="layui-form-item">
+                                <label for="mobile" class="layui-form-label">手机号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="mobile" name="mobile" required lay-verify="required|phone"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="L_pass" class="layui-form-label">密码</label>
+                                <div class="layui-input-inline">
+                                    <input type="password" id="L_pass" name="pass" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="L_vercode" class="layui-form-label">验证码</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="L_vercode" name="vercode" required lay-verify="required"
+                                           placeholder="请输入后面的验证码" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid">
+                                    <img src="/index/login/captcha?t=<?php echo time();?>" id="validateCodeBtnId"
+                                         style="width: 120px; height: 30px;">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-filter="LoginBtnFilter" lay-submit>立即登录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , $ = layui.jquery;
+        form.on('submit(LoginBtnFilter)', function (data) {
+            layer.load(1);
+            $.post("/index/login/index_login", data.field, function (d) {
+                var d = eval('(' + d + ')');
+                layer.closeAll('loading');
+                if (d.code == 0) {
+                    window.location.href = "/index/user/";
+                } else {
+                    layer.msg(d.error_msg, {icon: 2});
+                    $('#validateCodeBtnId').attr("src", "/index/login/captcha?t=" + (new Date()).valueOf())
+                }
+            });
+            return false;
+        });
+
+        $('#validateCodeBtnId').click(function () {
+          $(this).attr("src", "/index/login/captcha?t=" + (new Date()).valueOf());
+        });
+
+    });
+</script>
+{include file="common/footer"}

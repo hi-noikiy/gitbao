@@ -1,0 +1,98 @@
+{include file="common/header"}
+<div class="fly-home fly-panel" style="background-image: url();">
+    <h1>
+        {$LoginUser.username}
+        <i class="iconfont icon-nan"></i>
+        {if condition="$LoginUser.state eq 1"}
+        <i class="layui-badge fly-badge-vip">VIP{$LoginUser.vip_level}</i>
+        {/if}
+    </h1>
+
+    <p style="padding: 10px 0; color: #5FB878;"></p>
+
+    <p class="fly-home-info">
+
+        <i class="iconfont icon-shijian"></i><span>{$LoginUser.create_time} 加入</span>
+        {if condition="$LoginUser.state eq 1"}
+        <i class="iconfont icon-shijian"></i><span>{$LoginUser.vip_end_time} 到期</span>
+        {/if}
+    </p>
+    <p class="fly-home-info">
+        <i class="iconfont "></i><span>可以创建{$vip_config.robot_num}个</span>
+        <i class="iconfont "></i><span>最大交易USDT{$vip_config.transaction_num}个</span>
+    </p>
+
+
+</div>
+
+<div class="layui-container">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6 fly-home-jie">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">OKEX行情</h3>
+
+                <ul class="fly-case-list">
+                    {foreach name="okex" item="vo" key="k"}
+                    <li>
+                        <h2><a href="#">{$k}</a></h2>
+                        <p style="text-align: center">
+                            最高价：{$vo.ticker.high}
+                        </p>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-col-md6 fly-home-da">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">火币详情</h3>
+
+                <ul class="fly-case-list">
+                    {foreach name="okex" item="vo" key="k"}
+                    <li>
+                        <h2><a href="#">{$k}</a></h2>
+                        <p style="text-align: center">
+                            最高价：{$vo.ticker.high}
+                        </p>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-container">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md15 fly-home-jie">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">持仓情况</h3>
+                <table class="layui-table" lay-even="" lay-skin="nob">
+                    <thead>
+                    <tr>
+                        <th>币种</th>
+                        <th lay-data="{field:'', width:150,sort:true}">可用余额</th>
+                        <th>同步日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="free" item="vo" key="k"}
+                    {if condition="$vo.coin_number > 0"}
+                    <tr>
+                        <td>{$vo.coin_name}</td>
+                        <td>{$vo.coin_number}</td>
+                        <td>{$vo.sync_date}</td>
+                    </tr>
+                    {/if}
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <center>
+            <a class="layui-btn layui-btn-normal" href="/index/trade">开始交易</a>
+        </center>
+    </div>
+</div>
+{include file="common/footer"}

@@ -1,0 +1,77 @@
+{include file="common/header"}
+<div class="layui-container fly-marginTop">
+    <div class="fly-panel fly-panel-user" pad20>
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form layui-form-pane">
+                        <form class="layui-form" action="">
+                            {:token()}
+
+                            <div class="layui-form-item">
+                                <label for="validate" class="layui-form-label">验证码</label>
+                                <div class="layui-input-inline" style="width: 300px">
+                                    <input type="text" id="validate" name="validate" required lay-verify="required"
+                                           autocomplete="off" class="layui-input" placeholder="请使用注册的手机号接收验证码">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">
+                                    <button class="layui-btn-primary layui-btn-sm">获取验证码</button>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="api_key" class="layui-form-label">API Key</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="api_key" name="api_key" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label for="api_secret" class="layui-form-label">API Secret</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="api_secret" name="api_secret" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-filter="RegBtnFilter" lay-submit="">立即修改</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , $ = layui.jquery;
+        form.on("submit(RegBtnFilter)", function (data) {
+            layer.confirm('修改API将停止所有在运行机器人 ？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                layer.load(1);
+                $.post("/index/user/edit_key_action", data.field, function (d) {
+                    var d = eval('(' + d + ')');
+                    layer.closeAll('loading');
+                    if (d.code == 0) {
+                        window.location.href = "/index/login/";
+                    } else {
+                        layer.msg(d.error_msg, {icon: 2});
+                    }
+                });
+            }, function(){
+            });
+            return false;
+        });
+
+    });
+</script>
+
+{include file="common/footer"}

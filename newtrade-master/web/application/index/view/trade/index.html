@@ -1,0 +1,463 @@
+{include file="common/header"}
+<style>
+    .fly-case-list li h2 {
+        padding: 10px 0 5px;
+        line-height: 22px;
+        font-size: 18px;
+        white-space: normal;
+        overflow: hidden;
+        text-align: center;
+    }
+</style>
+<div class="layui-container" style="margin-top: 30px">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md15 fly-home-jie">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">机器人列表</h3>
+                <div class="jie-row">
+                    <button class="layui-btn layui-btn-normal" id="addRobotBtn"><i class="layui-icon">&#xe608;</i> 添加机器人
+                    </button>
+                    <table class="layui-hide" id="RobotList" lay-filter="RobotList"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看订单</a>
+    {{# if(d.state==2){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="start">启动</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="stop">停止</a>
+    {{# } }}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn layui-btn-xs" lay-event="findLog">日志</a>
+</script>
+
+
+<div class="layui-container" id="orderDivId" style="display: none;padding: 20px">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md15 fly-home-jie">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">订单列表</h3>
+                <div class="jie-row">
+                    <table class="layui-hide" id="RobotOrderList" lay-filter="RobotOrderList"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-container" id="logDivId" style="display: none;padding: 20px">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md15 fly-home-jie">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">机器人日志</h3>
+                <div class="jie-row">
+                    <table class="layui-hide" id="RobotLogList" lay-filter="RobotLogList"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="" id="addRobotDivId" style="display: none;text-align:center;padding: 20px">
+    <div class="layui-form layui-form-pane">
+        <form class="layui-form" action="">
+            {:token()}
+            <input type="hidden" id="robot_id" name="robot_id" value="">
+            <input type="hidden" id="config_id" name="config_id" value="">
+
+            <div class="layui-form-item">
+                <label for="robot_name" class="layui-form-label">机器人名称</label>
+                <div class="layui-input-block">
+                    <input type="text" id="robot_name" name="robot_name" required lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="business_type" class="layui-form-label">交易类型</label>
+                <div class="layui-input-block">
+                    <select id="business_type" name="business_type" lay-filter="business_type">
+                        <option value="buy_market" selected>市价单</option>
+                        <!--<option value="buy">限价单</option>-->
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="symbol" class="layui-form-label">交易品种</label>
+                <div class="layui-input-block">
+                    <select id="symbol" name="symbol">
+                        {foreach name="coin_arr" item="vo" key="k"}
+                        <option value="{$vo}">{$vo}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="sleep_time" class="layui-form-label">访问频次</label>
+                <div class="layui-input-block">
+                    <input type="text" id="sleep_time" name="sleep_time" required lay-verify="required"
+                           autocomplete="off" class="layui-input" placeholder="" readonly value="60" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="trade_use_num" class="layui-form-label">可交易次数</label>
+                <div class="layui-input-block">
+                    <input type="text" id="trade_use_num" name="trade_use_num" lay-verify="required"
+                           autocomplete="off" class="layui-input" placeholder="机器人允许的最大交易次数">
+                </div>
+            </div>
+            <div class="layui-form-item" id="price_div_id" style="display: none;">
+                <label for="price" class="layui-form-label">买入价格</label>
+                <div class="layui-input-block">
+                    <input type="text" id="price" name="price"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="amount" class="layui-form-label" id="amount_desc_id">使用USDT</label>
+                <div class="layui-input-block">
+                    <input type="text" id="amount" name="amount" lay-verify="required"
+                           autocomplete="off" class="layui-input" placeholder="买入货币使用多少USDT，最大5000USDT">
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: none">
+                <label for="profit_number" class="layui-form-label">止盈量</label>
+                <div class="layui-input-block">
+                    <input type="text" id="profit_number" name="profit_number"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: none">
+                <label for="price_sell" class="layui-form-label">卖出价格</label>
+                <div class="layui-input-block">
+                    <input type="text" id="price_sell" name="price_sell"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="config_type" class="layui-form-label">交易策略</label>
+                <div class="layui-input-block">
+                    <select name="config_type" id="config_type">
+                        <!--<option value="1">普通策略</option>-->
+                        {foreach name="public_policy" item="vo" key="k"}
+                        <option value="{$vo.id}">{$vo.policy_zh_name}</option>
+                        {/foreach}
+                        {foreach name="user_policy" item="vo" key="k"}
+                        <option value="{$vo.id}">{$vo.policy_zh_name}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: none;">
+                <label for="config_type" class="layui-form-label">周期</label>
+                <div class="layui-input-block">
+                    <select name="config_type_week" id="config_type_week">
+                        {foreach name="week_kline" item="vo" key="k"}
+                        <option value="{$k}">{$vo}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="BtnFilter" lay-submit>确定</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/html" id="stateTpl">
+    {{# if(d.state==1){ }}
+    <b style="color: #048229;">运行中..</b>
+    {{# }else if(d.state==2){ }}
+    已关闭
+    {{# } }}
+</script>
+<script type="text/html" id="stateOrderTpl">
+    {{# if(d.state==-1){ }}
+    <span class="layui-badge layui-bg-gray">已撤销</span>
+    {{# }else if(d.state==0){ }}
+    <span class="layui-badge layui-bg-black">未成交</span>
+    {{# }else if(d.state==1){ }}
+    <span class="layui-badge layui-bg-blue">部分成交</span>
+    {{# }else if(d.state==2){ }}
+    <span class="layui-badge layui-bg-green">完成成交</span>
+    {{# }else if(d.state==3){ }}
+    <span class="layui-badge layui-bg-orange">撤单处理中</span>
+    {{# } }}
+</script>
+<!-- -1:已撤销  0:未成交  1:部分成交  2:完全成交 3:撤单处理中 -->
+<script type="text/html" id="stateOrderTypeTpl">
+    {{# if(d.order_type==1){ }}
+    <span class="layui-badge layui-bg-cyan">买进</span>
+    {{# }else if(d.order_type==2){ }}
+    <span class="layui-badge layui-bg-orange">卖出</span>
+    {{# } }}
+</script>
+<script type="text/html" id="orderBar">
+    {{# if(d.state!=-1 && d.state!=2  && d.state!=3 ){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="cancelOrder">撤消</button>
+    {{# }else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">不能撤消</button>
+    {{# } }}
+</script>
+
+<script>
+
+    layui.use(['laydate', 'laypage', 'form', 'layer', 'table', 'element'], function () {
+        var laydate = layui.laydate //日期
+            , laypage = layui.laypage //分页
+            , form = layui.form
+            , layer = layui.layer //弹层
+            , table = layui.table //表格
+            , element = layui.element
+            , $ = layui.jquery; //元素操作
+
+        $("#addRobotBtn").click(function () {
+            $('*[type="reset"]').click();
+            $('#robot_id').val("");
+            $('#config_id').val("");
+            changeData($('#business_type').val());
+            layer.open({
+                type: 1,
+                title: "创建机器人",
+                area: ["50%", "90%"],
+                content: $('#addRobotDivId')
+            });
+            return false;
+        });
+
+
+        form.on('select(business_type)', function (data) {
+            changeData(data.value);
+        });
+        var changeData = function (val) {
+            if (val == "buy_market") {
+                $('#amount_desc_id').html("使用USDT")
+                $("#price_div_id").hide()
+            } else {
+                $('#amount_desc_id').html("购买数量")
+                $("#price_div_id").show()
+            }
+        }
+
+        form.on('submit(BtnFilter)', function (data) {
+            layer.load(1);
+            $.post('/index/trade/add_robot', data.field, function (d) {
+                layer.closeAll('loading');
+                var d = eval('(' + d + ')');
+                if (d.code == "0") {
+                    layer.closeAll();
+                    layer.msg(d.error_msg, {icon: 1});
+                    table.reload('RobotList', {});
+                } else {
+                    layer.msg(d.error_msg, {icon: 2});
+                }
+            });
+            return false;
+        });
+
+        //执行一个 table 实例
+        table.render({
+            elem: '#RobotList'
+            , height: 'full'
+            , url: '/index/trade/robot' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
+                , {field: 'robot_name', title: '机器人名称', width: 280}
+                , {field: 'trade_num', title: '交易(数)', width: 80}
+                , {field: 'create_time', title: '创建时间', width: 170}
+                , {field: 'state', title: '状态', width: 80, templet: "#stateTpl"}
+                , {field: 'business_type', title: '买卖类型', width: 120}
+                , {fixed: 'right', align: 'center', toolbar: '#barDemo', width: 280}
+            ]]
+        });
+        table.render({
+            elem: '#RobotOrderList'
+            , height: 'full'
+            , url: '' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'create_time', title: '委托时间', width: 180}
+                , {field: 'symbol', title: '币币', width: 120}
+                , {field: 'trade_type', title: '类型', width: 130}
+                , {field: 'order_type', title: '方向', width: 80, templet: "#stateOrderTypeTpl"}
+                , {field: 'amount', title: '委托数量', width: 120}
+                , {field: 'price', title: '委托价格', width: 120}
+                , {field: 'deal_amount', title: '已成交', width: 120}
+                , {field: 'avg_price', title: '成交均价', width: 120}
+                , {field: 'k_line_avg_data', title: 'K线', width: 120}
+                , {field: 'k_line_avg_data_2', title: 'K线2', width: 120}
+                , {field: 'state', title: '状态', width: 120, templet: "#stateOrderTpl"}
+                , {fixed: 'right', align: 'center', width: 120, toolbar: '#orderBar'}
+            ]]
+        });
+
+
+        table.render({
+            elem: '#RobotLogList'
+            , height: 'full'
+            , url: '' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'create_time', title: '创建时间', width: 180}
+                , {field: 'log_content', title: '请求日志'}
+                , {field: 'log_response_content', title: '返回日志'}
+            ]]
+        });
+
+        //监听工具条
+        table.on('tool(RobotOrderList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'cancelOrder') {
+                layer.confirm('是否撤消该订单？', function (index) {
+                    layer.close(index);
+                    layer.load(1);
+                    $.post('/index/trade/cancel_order', {
+                        id: data.id,
+                        "__token__": $('input[name="__token__"]').val()
+                    }, function (d) {
+                        layer.closeAll('loading');
+                        var d = eval('(' + d + ')');
+                        if (d.code == 0) {
+                            layer.msg(d.error_msg, {icon: 1});
+                            table.reload('RobotOrderList', {});
+                        } else {
+                            layer.msg(d.error_msg, {icon: 2});
+                        }
+                    });
+                });
+            }
+        });
+        //监听工具条
+        table.on('tool(RobotList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                layer.open({
+                    type: 1,
+                    title: "订单列表",
+                    area: ["80%", "80%"],
+                    content: $('#orderDivId')
+                });
+                table.reload('RobotOrderList', {
+                    url: '/index/trade/order?id=' + data.id
+                })
+            } else if (layEvent === 'del') {
+                layer.confirm('确定删除该机器人吗？', function (index) {
+                    layer.close(index);
+                    layer.load(1);
+                    $.post('/index/trade/del_robot', {id: data.id}, function (d) {
+                        layer.closeAll();
+                        var d = eval('(' + d + ')');
+                        if (d.code == 0) {
+                            layer.msg(d.error_msg, {icon: 1});
+                            table.reload('RobotList', {});
+                        } else {
+                            layer.msg(d.error_msg, {icon: 2});
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') {
+                $.get('/index/trade/config?cid=' + data.config_id, function (d) {
+                    var d = eval('(' + d + ')');
+                    $('#robot_id').val(data.id);
+                    $('#config_id').val(data.config_id);
+                    $('#robot_name').val(data.robot_name);
+                    $('#business_type').val(data.business_type);
+                    $('#sleep_time').val(d.data.sleep_time);
+                    $('#config_type').val(d.data.config_type);
+                    $('#config_type_week').val(d.data.config_type_week);
+                    $('#symbol').val(d.data.symbol);
+                    $('#trade_use_num').val(data.trade_use_num);
+                    $('#amount').val(d.data.amount);
+                    $('#price').val(d.data.price);
+                    $('#price_sell').val(d.data.price_sell);
+                    $('#profit_number').val(d.data.profit_number);
+                    changeData(data.business_type);
+                    form.render('select');
+                    layer.open({
+                        type: 1,
+                        title: "编辑机器人",
+                        area: ["50%", "90%"],
+                        content: $('#addRobotDivId')
+                    });
+                });
+            } else if (layEvent === 'start') {
+                layer.confirm('确定启动该机器人吗？', function (index) {
+                    layer.close(index);
+                    layer.load(1);
+                    $.post('/index/trade/start_robot', {id: data.id}, function (d) {
+                        layer.closeAll();
+                        var d = eval('(' + d + ')');
+                        if (d.code == 0) {
+                            layer.msg(d.error_msg, {icon: 1});
+                            table.reload('RobotList', {});
+                        } else {
+                            layer.msg(d.error_msg, {icon: 2});
+                        }
+                    });
+                });
+            } else if (layEvent === 'stop') {
+                layer.confirm('确定停止该机器人吗？', function (index) {
+                    layer.close(index);
+                    layer.load(1);
+                    $.post('/index/trade/stop_robot', {id: data.id}, function (d) {
+                        layer.closeAll();
+                        var d = eval('(' + d + ')');
+                        if (d.code == 0) {
+                            layer.msg(d.error_msg, {icon: 1});
+                            table.reload('RobotList', {});
+                        } else {
+                            layer.msg(d.error_msg, {icon: 2});
+                        }
+                    });
+                });
+            } else if (layEvent === 'findLog') {
+                layer.open({
+                    type: 1,
+                    title: "机器人操作日志",
+                    area: ["80%", "80%"],
+                    content: $('#logDivId')
+                });
+                table.reload('RobotLogList', {
+                    url: '/index/trade/robot_log?id=' + data.id
+                });
+            }
+        });
+    });
+</script>
+
+
+<div class="layui-container">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md15 fly-home-jie">
+            <div class="fly-panel">
+                <h3 class="fly-panel-title">策略介绍</h3>
+
+                <ul class="fly-case-list" style="padding: 15px">
+
+                    {foreach name="policy_list" item="vo" key="k"}
+
+                    <li data-id="{$vo.id}">
+                        <h2><a href="#" >{$vo.policy_zh_name}</a></h2>
+                        <p class="fly-case-desc">{$vo.policy_description}</p>
+                        <div class="fly-case-info">
+                            {$vo.policy_use_type}<br>
+                            {$vo.policy_week}<br>
+                            {$vo.policy_type}
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="common/footer"}

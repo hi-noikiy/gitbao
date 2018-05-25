@@ -1,0 +1,34 @@
+2018-05-05 18:01:52  error:  机器人：8  "amount=3&api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=0.10000000&symbol=eos_usdt&type=sell&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=1FA5F45B9147CE04415619B774976FAB"   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出失败 {"error_code":1002}
+2018-05-05 18:02:05  error:  机器人：8  "amount=3&api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=0.10000000&symbol=eos_usdt&type=sell&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=1FA5F45B9147CE04415619B774976FAB"   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出失败 {"error_code":1002}
+2018-05-05 18:02:16  error:  机器人：8  "amount=3&api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=0.10000000&symbol=eos_usdt&type=sell&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=1FA5F45B9147CE04415619B774976FAB"   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出失败 {"error_code":1002}
+2018-05-05 18:02:26  error:  机器人：8  "amount=3&api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=0.10000000&symbol=eos_usdt&type=sell&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=1FA5F45B9147CE04415619B774976FAB"   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出失败 {"error_code":1002}
+2018-05-05 18:02:37  error:  机器人：8  "amount=3&api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=0.10000000&symbol=eos_usdt&type=sell&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=1FA5F45B9147CE04415619B774976FAB"   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出失败 {"error_code":1002}
+2018-05-05 18:02:52  error:  机器人：8  "amount=3&api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=0.10000000&symbol=eos_usdt&type=sell&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=1FA5F45B9147CE04415619B774976FAB"   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出失败 {"error_code":1002}
+2018-05-05 18:03:07  error:  机器人：8  "amount=3&api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=0.10000000&symbol=eos_usdt&type=sell&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=1FA5F45B9147CE04415619B774976FAB"   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出失败 {"error_code":1002}
+2018-05-05 18:03:28  error:  机器人：8   6EC513C43A15AE8DCA9A97CDE3EE85D6 卖出查询失败 Empty reply from server
+2018-05-05 18:14:13  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 18:18:04  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Empty reply from server
+2018-05-05 18:19:18  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 18:19:46  error:  机器人：8  "api_key=4ede8912-b2a2-486c-a520-d6d1cf212227&price=2.00000000&symbol=eos_usdt&type=buy_market&secret_key=6EC513C43A15AE8DCA9A97CDE3EE85D6&sign=5A912CA33FC99B56F8597C8C87F3F5D9"   6EC513C43A15AE8DCA9A97CDE3EE85D6 买入失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 18:24:27  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 18:34:42  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 18:45:01  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 300165 milliseconds with 0 out of 0 bytes received
+2018-05-05 18:52:35  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 300178 milliseconds with 0 out of 0 bytes received
+2018-05-05 18:58:41  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 300307 milliseconds with 0 out of 0 bytes received
+2018-05-05 19:45:57  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 2701996 milliseconds with 0 out of 0 bytes received
+2018-05-05 19:54:48  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 20:00:10  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 300288 milliseconds with 0 out of 0 bytes received
+2018-05-05 20:06:34  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 300312 milliseconds with 0 out of 0 bytes received
+2018-05-05 20:35:12  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 1696468 milliseconds with 0 out of 0 bytes received
+2018-05-05 20:35:47  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Could not resolve host: www.okex.com
+2018-05-05 20:42:31  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 300308 milliseconds with 0 out of 0 bytes received
+2018-05-05 20:44:17  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 20:44:38  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Empty reply from server
+2018-05-05 20:47:32  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 20:52:38  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 300303 milliseconds with 0 out of 0 bytes received
+2018-05-05 20:54:08  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 20:55:51  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Empty reply from server
+2018-05-05 20:57:00  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 20:57:35  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Could not resolve host: www.okex.com
+2018-05-05 21:02:39  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.okex.com:443 
+2018-05-05 21:42:08  error:  机器人：8  null   6EC513C43A15AE8DCA9A97CDE3EE85D6 监听查询失败 Operation timed out after 2250873 milliseconds with 0 out of 0 bytes received

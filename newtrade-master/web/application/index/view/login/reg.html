@@ -1,0 +1,107 @@
+{include file="common/header"}
+<div class="layui-container fly-marginTop">
+    <div class="fly-panel fly-panel-user" pad20>
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <ul class="layui-tab-title">
+                <li><a href="/index/login/">登入</a></li>
+                <li class="layui-this">注册</li>
+            </ul>
+            <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form layui-form-pane">
+                        <form class="layui-form" action="">
+                            {:token()}
+                            <div class="layui-form-item">
+                                <label for="mobile" class="layui-form-label">手机</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="mobile" name="mobile" required lay-verify="required|phone"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">
+                                    <button class="layui-btn-primary layui-btn-sm">获取验证码</button>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="validate" class="layui-form-label">验证码</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="validate" name="validate" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="L_pass" class="layui-form-label">密码</label>
+                                <div class="layui-input-inline">
+                                    <input type="password" id="L_pass" name="pass" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="L_repass" class="layui-form-label">确认密码</label>
+                                <div class="layui-input-inline">
+                                    <input type="password" id="L_repass" name="repass" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label for="platform" class="layui-form-label">选择平台</label>
+                                <div class="layui-input-inline">
+                                    <select id="platform" name="platform">
+                                        <option value="1">OKEX平台</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label for="api_key" class="layui-form-label">API Key</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="api_key" name="api_key" 
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label for="api_secret" class="layui-form-label">API Secret</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="api_secret" name="api_secret" 
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-filter="RegBtnFilter" lay-submit="">立即注册</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , $ = layui.jquery;
+        form.on("submit(RegBtnFilter)", function (data) {
+            layer.load(1);
+            $.post("/index/login/reg_login", data.field, function (d) {
+                var d = eval('(' + d + ')');
+                layer.closeAll('loading');
+                if (d.code == 0) {
+                    window.location.href = "/index/user/";
+                } else {
+                    layer.msg(d.error_msg, {icon: 2});
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+
+{include file="common/footer"}

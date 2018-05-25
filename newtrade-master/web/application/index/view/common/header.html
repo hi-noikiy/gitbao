@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动交易平台</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <script src="/static/layui/layui.js"></script>
+</head>
+<body>
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" href="/">
+        </a>
+        <ul class="layui-nav fly-nav layui-hide-xs">
+            <li class="layui-nav-item layui-this">
+                <a href="/index/user"><i class="iconfont icon-jiaoliu"></i>首页</a>
+            </li>
+        </ul>
+
+        <ul class="layui-nav fly-nav-user">
+            {if condition="$LoginUser.id eq ''"}
+            <!-- 未登入的状态 -->
+            <li class="layui-nav-item">
+                <a class="iconfont icon-touxiang layui-hide-xs" href="/index/login/"></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/index/login/">登入</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/index/login/reg">注册</a>
+            </li>
+            {else /}
+
+            <li class="layui-nav-item">
+
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="iconfont icon-touxiang layui-hide-xs"></cite>
+                    <cite class="layui-hide-xs">{$LoginUser.username}</cite>
+
+                    {if condition="$LoginUser.state eq 1"}
+                    <i class="iconfont icon-renzheng layui-hide-xs"></i>
+                    <i class="layui-badge fly-badge-vip layui-hide-xs">VIP{$LoginUser.vip_level}</i>
+                    {/if}
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/index/user/"><i class="layui-icon">&#xe68e;</i>我的主页</a></dd>
+                    <dd><a href="/index/user/set_page"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                    <dd><a href="/index/user/edit_pwd"><i class="layui-icon">&#xe673;</i>修改密码</a></dd>
+                    <hr style="margin: 5px 0;">
+                    <dd><a href="/index/login/logout" style="text-align: center;">退出</a></dd>
+                </dl>
+            </li>
+            {/if}
+        </ul>
+    </div>
+</div>
+
